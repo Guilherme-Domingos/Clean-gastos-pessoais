@@ -1,0 +1,25 @@
+{
+  "name": "clean-gastos-pessoais",
+  "version": "1.0.0",
+  "description": "Implementação de funcionalidades de um sistema de gestão financeiro pessoal com arquitetura limpa.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Guilherme-Domingos/Clean-gastos-pessoais.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Guilherme-Domingos/Clean-gastos-pessoais/issues"
+  },
+  "homepage": "https://github.com/Guilherme-Domingos/Clean-gastos-pessoais#readme",
+  "devDependencies": {
+    "@types/node": "^22.15.15",
+    "typescript": "^5.8.3"
+  }
+}
