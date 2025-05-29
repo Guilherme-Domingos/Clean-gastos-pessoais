@@ -12,11 +12,19 @@ export type TransactionProps = {
 export class Transaction {
     private constructor(
             private props: TransactionProps,
-        ){}
+    ){}
+
+    public static create(id: string, userId: string, date: Date, value: number, description: string, type: 'receita' | 'despesa', sender: string, category: string): Transaction {
+        return new Transaction({ id: crypto.randomUUID(), userId, date, value, description, type, sender, category });
+    }
+
+    public static fromPersistentData(props: TransactionProps): Transaction {
+        return new Transaction(props);
+    }
     
-        public static create(id: string, userId: string, date: Date, value: number, description: string, type: 'receita' | 'despesa', sender: string, category: string): Transaction {
-            return new Transaction({ id: crypto.randomUUID(), userId, date, value, description, type, sender, category });
-        }
+    public toPersistentData(): TransactionProps {
+        return this.props;
+    }
 
     get id(): string {
         return this.props.id;

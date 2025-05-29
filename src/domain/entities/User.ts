@@ -20,6 +20,14 @@ export class User {
         return new User({ id: crypto.randomUUID.toString(), name, email, password });
     }
 
+    public static fromPersistentData(props: UserProps): User {
+        return new User(props);
+    }
+
+    public toPersistentData(): UserProps {
+        return this.props;
+    }
+
     get id(): string {
         return this.props.id;
     }
