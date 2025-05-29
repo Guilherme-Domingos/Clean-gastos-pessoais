@@ -15,8 +15,8 @@ datasource db {
 
 // Enum for transaction type
 enum TipoTransacao {
-ENTRADA
-SAIDA
+  RECEITA
+  DESPESA
 }
 
 model Usuario {

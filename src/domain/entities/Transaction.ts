@@ -1,10 +1,9 @@
 export type TransactionProps = {
     id: string;
-    userId: string;
     date: Date;
-    value: number;
+    amount: number;
     description?: string;
-    type: 'receita' | 'despesa';
+    type: 'RECEITA' | 'DESPESA';
     sender?: string;
     category: string;
 }
@@ -14,8 +13,8 @@ export class Transaction {
             private props: TransactionProps,
     ){}
 
-    public static create(id: string, userId: string, date: Date, value: number, description: string, type: 'receita' | 'despesa', sender: string, category: string): Transaction {
-        return new Transaction({ id: crypto.randomUUID(), userId, date, value, description, type, sender, category });
+    public static create( date: Date, amount: number, description: string | undefined, type: 'RECEITA' | 'DESPESA', sender: string | undefined, category: string): Transaction {
+        return new Transaction({ id: crypto.randomUUID(), date, amount, description, type, sender, category });
     }
 
     public static fromPersistentData(props: TransactionProps): Transaction {
@@ -30,23 +29,19 @@ export class Transaction {
         return this.props.id;
     }
 
-    get userId(): string {
-        return this.props.userId;
-    }
-
     get date(): Date {
         return this.props.date;
     }
 
-    get value(): number {
-        return this.props.value;
+    get amount(): number {
+        return this.props.amount;
     }
 
     get description(): string | undefined {
         return this.props.description;
     }
 
-    get type(): 'receita' | 'despesa' {
+    get type(): 'RECEITA' | 'DESPESA' {
         return this.props.type;
     }
 
