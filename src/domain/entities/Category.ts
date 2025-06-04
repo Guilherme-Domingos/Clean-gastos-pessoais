@@ -1,5 +1,5 @@
 export type CategoryProps = {
-    id: string;
+    id: number;
     name: string;
     userId: string;
 }
@@ -8,9 +8,8 @@ export class Category {
     private constructor(
             private props: CategoryProps,
     ){}
-    
-    public static create(id: string, userId: string, name: string): Category {
-        return new Category({ id: crypto.randomUUID(), userId, name });
+      public static create(userId: string, name: string): Category {
+        return new Category({ id: 0, userId, name });
     }
 
     public static fromPersistentData(props: CategoryProps): Category {
@@ -19,9 +18,7 @@ export class Category {
     
     public toPersistentData(): CategoryProps {
         return this.props;
-    }
-
-    get id(): string {
+    }    get id(): number {
         return this.props.id;
     }
     get name(): string {

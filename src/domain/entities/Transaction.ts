@@ -5,16 +5,34 @@ export type TransactionProps = {
     description?: string;
     type: 'RECEITA' | 'DESPESA';
     sender?: string;
-    category: string;
+    userId: string;
+    categoryId?: number;
 }
 
 export class Transaction {
     private constructor(
             private props: TransactionProps,
-    ){}
-
-    public static create( date: Date, amount: number, description: string | undefined, type: 'RECEITA' | 'DESPESA', sender: string | undefined, category: string): Transaction {
-        return new Transaction({ id: crypto.randomUUID(), date, amount, description, type, sender, category });
+    ){}    
+    
+    public static create(
+        date: Date, 
+        amount: number, 
+        description: string | undefined, 
+        type: 'RECEITA' | 'DESPESA', 
+        sender: string | undefined, 
+        userId: string,
+        categoryId?: number
+    ): Transaction {
+        return new Transaction({ 
+            id: crypto.randomUUID(), 
+            date, 
+            amount, 
+            description, 
+            type, 
+            sender, 
+            userId,
+            categoryId 
+        });
     }
 
     public static fromPersistentData(props: TransactionProps): Transaction {
@@ -47,9 +65,11 @@ export class Transaction {
 
     get sender(): string | undefined {
         return this.props.sender;
+    }    get categoryId(): number | undefined {
+        return this.props.categoryId;
     }
 
-    get category(): string {
-        return this.props.category;
+    get userId(): string {
+        return this.props.userId;
     }
 }

@@ -20,43 +20,42 @@ enum TipoTransacao {
 }
 
 model Usuario {
-  id          String            @id @default(uuid())
-  nome        String
-  email       String         @unique
-  senha       String
-  categorias  Categoria[]
+  id           String       @id @default(uuid())
+  nome         String
+  email        String       @unique
+  senha        String
+  categorias   Categoria[]
   metasMensais MetaMensal[]
-  transacoes  Transacao[]
+  transacoes   Transacao[]
 }
 
 model MetaMensal {
-  id          String            @id @default(uuid())
-  valorLimite Decimal  @db.Decimal(10, 2)
+  id          Int     @id @default(autoincrement())
+  valorLimite Decimal @db.Decimal(10, 2)
   mes         Int
   ano         Int
   usuarioId   String
-  usuario     Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  usuario     Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
 }
 
 model Categoria {
-  id          String            @id @default(uuid())
-  nome        String
-  usuarioId   String
-  usuario     Usuario      @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
-  transacoes  Transacao[]
-
+  id         Int         @id @default(autoincrement())
+  nome       String
+  usuarioId  String
+  usuario    Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  transacoes Transacao[]
 }
 
 model Transacao {
-  id          String            @id @default(uuid())
+  id          String        @id @default(uuid())
   descricao   String?
   data        DateTime
   tipo        TipoTransacao
   remetente   String?
-  valor       Decimal          @db.Decimal(10, 2)
+  valor       Decimal       @db.Decimal(10, 2)
   usuarioId   String
-  categoriaId String?
+  categoriaId Int?
 
-  usuario     Usuario         @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
-  categoria   Categoria?      @relation(fields: [categoriaId], references: [id], onDelete: SetNull)
+  usuario   Usuario    @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  categoria Categoria? @relation(fields: [categoriaId], references: [id], onDelete: SetNull)
 }

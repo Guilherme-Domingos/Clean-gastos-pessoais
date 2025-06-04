@@ -10,7 +10,7 @@ export class User {
         private props: UserProps,
     ){}
 
-    public static create(id: string, name: string, email: string, password: string): User {
+    public static create(name: string, email: string, password: string): User {
         if (!name || name.length < 3) {
             throw new Error('O nome deve ter pelo menos 3 caracteres');
         }

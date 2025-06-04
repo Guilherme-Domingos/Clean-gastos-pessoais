@@ -5,10 +5,19 @@ import { CreateTransactionOutputDTO } from "../../dto/transaction/CreateTransact
 import { UseCase } from "../UseCase";
 
 export class CreateTransaction implements UseCase<CreateTransactionInputDTO, CreateTransactionOutputDTO> {
-    constructor(private readonly transactionRepository: TransactionRepository) {}
-
+    constructor(private readonly transactionRepository: TransactionRepository) {}    
+    
     public async execute(inputDto: CreateTransactionInputDTO): Promise<CreateTransactionOutputDTO> {
-        const transaction = Transaction.create(inputDto.date, inputDto.amount, inputDto.description, inputDto.type, inputDto.sender, inputDto.category);
+        const transaction = Transaction.create(
+            inputDto.date,
+            inputDto.amount,
+            inputDto.description,
+            inputDto.type,
+            inputDto.sender,
+            inputDto.userId,
+            inputDto.categoryId
+        );
+        
         await this.transactionRepository.save(transaction);
 
         const outputDTO: CreateTransactionOutputDTO = {id: transaction.id};

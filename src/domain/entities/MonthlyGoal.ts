@@ -1,5 +1,5 @@
 export type MonthlyGoalProps = {
-    id: string;
+    id: number;
     valorLimite: number;
     mes: number;
     ano: number;
@@ -9,10 +9,8 @@ export type MonthlyGoalProps = {
 export class MonthlyGoal {
     private constructor(
             private props: MonthlyGoalProps,
-    ){}
-
-    public static create(id: string, userId: string, valorLimite: number, mes: number, ano: number): MonthlyGoal {
-        return new MonthlyGoal({ id: crypto.randomUUID(), userId, valorLimite, mes, ano });
+    ){}    public static create(userId: string, valorLimite: number, mes: number, ano: number): MonthlyGoal {
+        return new MonthlyGoal({ id: 0, userId, valorLimite, mes, ano });
     }
 
     public static fromPersistentData(props: MonthlyGoalProps): MonthlyGoal {
@@ -21,9 +19,7 @@ export class MonthlyGoal {
     
     public toPersistentData(): MonthlyGoalProps {
         return this.props;
-    }
-
-    get id(): string {
+    }    get id(): number {
         return this.props.id;
     }
     get userId(): string {
