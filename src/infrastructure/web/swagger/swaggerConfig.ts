@@ -158,6 +158,59 @@ const swaggerDefinition = {
         },
       },
       
+      ListTransactionOutput: {
+        type: 'object',
+        properties: {
+          transactions: {
+            type: 'array',
+            description: 'Lista de transações',
+            items: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'string',
+                  description: 'ID da transação',
+                  example: 'abc123-456def'
+                },
+                amount: {
+                  type: 'number',
+                  format: 'float',
+                  description: 'Valor da transação',
+                  example: 150.50
+                },
+                description: {
+                  type: 'string',
+                  description: 'Descrição da transação',
+                  example: 'Compra no supermercado'
+                },
+                date: {
+                  type: 'string',
+                  format: 'date-time',
+                  description: 'Data da transação',
+                  example: '2025-06-10T14:30:00.000Z'
+                },
+                categoryId: {
+                  type: 'string',
+                  description: 'ID da categoria da transação',
+                  example: '1'
+                },
+                transactionType: {
+                  type: 'string',
+                  enum: ['RECEITA', 'DESPESA'],
+                  description: 'Tipo da transação (receita ou despesa)',
+                  example: 'DESPESA'
+                },
+                sender: {
+                  type: 'string',
+                  description: 'Remetente ou destinatário da transação',
+                  example: 'Supermercado ABC'
+                }
+              }
+            }
+          }
+        }
+      },
+      
       // Schemas para Users
       CreateUserInput: {
         type: 'object',

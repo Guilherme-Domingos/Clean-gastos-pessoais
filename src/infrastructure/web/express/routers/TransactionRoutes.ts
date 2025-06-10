@@ -74,4 +74,26 @@ router.post('/transaction', (req, res) => ContainerFactory.createContainer().tra
  */
 router.delete('/transaction/:id', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleDeleteTransaction(req, res));
 
+/**
+ * @swagger
+ * /transaction:
+ *   get:
+ *     summary: Lista todas as transações
+ *     description: Retorna uma lista com todas as transações financeiras cadastradas
+ *     tags: [Transactions]
+ *     responses:
+ *       201:
+ *         description: Lista de transações obtida com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ListTransactionOutput'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.get('/transaction', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleListTransactions(res));
 export default router;
