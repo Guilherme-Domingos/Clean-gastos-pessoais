@@ -474,6 +474,118 @@ const swaggerDefinition = {
           },
         },
       },
+      
+      TransactionDetail: {
+        type: 'object',
+        properties: {
+          transaction: {
+            type: 'object',
+            properties: {
+              id: {
+                type: 'string',
+                example: 'abc123-456def',
+                description: 'ID da transação',
+              },
+              amount: {
+                type: 'number',
+                format: 'float',
+                example: 150.50,
+                description: 'Valor da transação',
+              },
+              description: {
+                type: 'string',
+                example: 'Compra no supermercado',
+                description: 'Descrição da transação',
+              },
+              date: {
+                type: 'string',
+                format: 'date-time',
+                example: '2025-06-10T14:30:00.000Z',
+                description: 'Data da transação',
+              },
+              categoryId: {
+                type: 'integer',
+                example: 1,
+                description: 'ID da categoria da transação',
+              },
+              transactionType: {
+                type: 'string',
+                enum: ['RECEITA', 'DESPESA'],
+                example: 'DESPESA',
+                description: 'Tipo da transação (receita ou despesa)',
+              },
+              sender: {
+                type: 'string',
+                example: 'Supermercado ABC',
+                description: 'Remetente ou destinatário da transação',
+              },
+              userId: {
+                type: 'string',
+                example: 'user-123',
+                description: 'ID do usuário associado à transação',
+              }
+            }
+          }
+        }
+      },
+      
+      UserTransactions: {
+        type: 'object',
+        properties: {
+          transactions: {
+            type: 'array',
+            description: 'Lista de transações do usuário',
+            items: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'string',
+                  example: 'abc123-456def',
+                  description: 'ID da transação',
+                },
+                amount: {
+                  type: 'number',
+                  format: 'float',
+                  example: 150.50,
+                  description: 'Valor da transação',
+                },
+                description: {
+                  type: 'string',
+                  example: 'Compra no supermercado',
+                  description: 'Descrição da transação',
+                },
+                date: {
+                  type: 'string',
+                  format: 'date-time',
+                  example: '2025-06-10T14:30:00.000Z',
+                  description: 'Data da transação',
+                },
+                categoryId: {
+                  type: 'integer',
+                  example: 1,
+                  description: 'ID da categoria da transação',
+                },
+                transactionType: {
+                  type: 'string',
+                  enum: ['RECEITA', 'DESPESA'],
+                  example: 'DESPESA',
+                  description: 'Tipo da transação (receita ou despesa)',
+                },
+                sender: {
+                  type: 'string',
+                  example: 'Supermercado ABC',
+                  description: 'Remetente ou destinatário da transação',
+                },
+                userId: {
+                  type: 'string',
+                  example: 'user-123',
+                  description: 'ID do usuário associado à transação',
+                }
+              }
+            }
+          }
+        }
+      },
     },
   },
 };

@@ -175,4 +175,40 @@ router.put('/transaction/:id', (req: Request, res: Response) => ContainerFactory
  */
 router.get('/transaction/:id', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleFindTransaction(req, res));
 
+/**
+ * @swagger
+ * /user/{userId}/transactions:
+ *   get:
+ *     summary: Busca todas as transações de um usuário
+ *     description: Retorna uma lista com todas as transações financeiras de um usuário específico
+ *     tags: [Transactions]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do usuário para buscar suas transações
+ *     responses:
+ *       200:
+ *         description: Transações encontradas com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserTransactions'
+ *       404:
+ *         description: Usuário não encontrado ou sem transações
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.get('/user/:userId/transactions', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleFindUserTransactions(req, res));
+
 export default router;

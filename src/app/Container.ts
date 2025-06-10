@@ -1,6 +1,7 @@
 import { CreateTransaction } from "../application/useCases/Transaction/CreateTransaction"
 import { DeleteTransaction } from "../application/useCases/Transaction/DeleteTransaction";
 import { FindTransaction } from "../application/useCases/Transaction/FindTransaction";
+import { FindUserTransactions } from "../application/useCases/Transaction/FindUserTransactions";
 import { ListTransactions } from "../application/useCases/Transaction/ListTransactions";
 import { UpdateTransaction } from "../application/useCases/Transaction/UpdateTransaction";
 import { TransactionController } from "../infrastructure/web/express/controllers/TransactionController";
@@ -14,12 +15,13 @@ export class Container {
         const listTransactions = new ListTransactions(TransactionRepository);
         const updateTransaction = new UpdateTransaction(TransactionRepository);
         const findTransaction = new FindTransaction(TransactionRepository);
-        const transactionController = new TransactionController(
+        const findUserTransactions = new FindUserTransactions(TransactionRepository);        const transactionController = new TransactionController(
             createTransaction, 
             deleteTransaction, 
             listTransactions, 
             updateTransaction,
-            findTransaction
+            findTransaction,
+            findUserTransactions
         );
         return transactionController;
     }
