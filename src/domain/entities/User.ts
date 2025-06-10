@@ -8,8 +8,8 @@ export type UserProps = {
 export class User {
     private constructor(
         private props: UserProps,
-    ){}
-
+    ){}    
+    
     public static create(name: string, email: string, password: string): User {
         if (!name || name.length < 3) {
             throw new Error('O nome deve ter pelo menos 3 caracteres');
@@ -17,7 +17,7 @@ export class User {
         if (!email || !email.includes('@')) {
             throw new Error('Email inválido');
         }
-        return new User({ id: crypto.randomUUID.toString(), name, email, password });
+        return new User({ id: crypto.randomUUID(), name, email, password });
     }
 
     public static fromPersistentData(props: UserProps): User {

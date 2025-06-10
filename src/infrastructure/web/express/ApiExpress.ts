@@ -4,9 +4,8 @@ import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "../swagger/swaggerConfig";
 
 export class ApiExpress {
-    private app: Express;
-
-    constructor(routes: Router) {
+    private app: Express;    
+    constructor(routes: Router[]) {
         this.app = express();
         this.app.use(express.json());
         this.app.use(cors());
@@ -26,7 +25,9 @@ export class ApiExpress {
         });
 
         // Rotas da aplicação
-        this.app.use(routes);
+        for (const router of routes) {
+            this.app.use(router);
+        }
     }
 
     public start(port: number) {

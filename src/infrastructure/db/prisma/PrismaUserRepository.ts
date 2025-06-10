@@ -42,7 +42,9 @@ export class PrismaUserRepository implements UserRepository {
         await prisma.usuario.delete({
             where: { id },
         });
-    }    async findAll(): Promise<User[]> {
+    }    
+    
+    async findAll(): Promise<User[]> {
         const users = await prisma.usuario.findMany();
         return users.map(user => {
             return User.fromPersistentData({ 

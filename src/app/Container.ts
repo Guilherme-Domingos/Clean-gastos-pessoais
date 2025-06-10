@@ -1,3 +1,4 @@
+// Importações necessárias da entidade transação
 import { CreateTransaction } from "../application/useCases/Transaction/CreateTransaction"
 import { DeleteTransaction } from "../application/useCases/Transaction/DeleteTransaction";
 import { FindTransaction } from "../application/useCases/Transaction/FindTransaction";
@@ -7,6 +8,11 @@ import { UpdateTransaction } from "../application/useCases/Transaction/UpdateTra
 import { TransactionController } from "../infrastructure/web/express/controllers/TransactionController";
 import { PrismaTransactionRepository } from "../infrastructure/db/prisma/PrismaTransactionRepository";
 
+// Importações necessárias da entidade usuário
+import { UserController } from "../infrastructure/web/express/controllers/UserController";
+import { PrismaUserRepository } from "../infrastructure/db/prisma/PrismaUserRepository";
+import { CreateUser } from "../application/useCases/User/CreateUser";
+
 export class Container {
     public get transactionController(){
         const TransactionRepository = new PrismaTransactionRepository();
@@ -15,7 +21,8 @@ export class Container {
         const listTransactions = new ListTransactions(TransactionRepository);
         const updateTransaction = new UpdateTransaction(TransactionRepository);
         const findTransaction = new FindTransaction(TransactionRepository);
-        const findUserTransactions = new FindUserTransactions(TransactionRepository);        const transactionController = new TransactionController(
+        const findUserTransactions = new FindUserTransactions(TransactionRepository);
+        const transactionController = new TransactionController(
             createTransaction, 
             deleteTransaction, 
             listTransactions, 
@@ -24,5 +31,12 @@ export class Container {
             findUserTransactions
         );
         return transactionController;
+    }
+
+    public get userController() {
+        const userRepository = new PrismaUserRepository();
+        const createUser = new CreateUser(userRepository);
+        const userController = new UserController(createUser);
+        return userController;
     }
 }
