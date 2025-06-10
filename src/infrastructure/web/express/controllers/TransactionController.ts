@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { CreateTransaction } from '../../../../application/useCases/Transaction/CreateTransaction';
 import { DeleteTransaction } from '../../../../application/useCases/Transaction/DeleteTransaction';
+import { FindTransaction } from '../../../../application/useCases/Transaction/FindTransaction';
 import { ListTransactions } from '../../../../application/useCases/Transaction/ListTransactions';
 import { UpdateTransaction } from '../../../../application/useCases/Transaction/UpdateTransaction';
 
@@ -9,7 +10,8 @@ export class TransactionController {
         private createTransaction: CreateTransaction, 
         private deleteTransaction: DeleteTransaction,
         private listTransactions: ListTransactions,
-        private updateTransaction: UpdateTransaction
+        private updateTransaction: UpdateTransaction,
+        private findTransaction: FindTransaction
     ) {}
 
     public async handleCreateTransaction(req: Request, res: Response): Promise<Response> {
@@ -75,6 +77,22 @@ export class TransactionController {
             return res.status(200).json({ data: result, message: result.message });
         } catch (error) {
             console.error('Error updating transaction:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
+    public async handleFindTransaction(req: Request, res: Response): Promise<Response> {
+        try {
+            const id = req.params.id;
+            const result = await this.findTransaction.execute({ id });
+            
+            if (!result) {
+                return res.status(404).json({ error: 'Transaction not found' });
+            }
+            
+            return res.status(200).json(result);
+        } catch (error) {
+            console.error('Error finding transaction:', error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     }

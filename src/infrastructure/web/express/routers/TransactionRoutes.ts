@@ -139,4 +139,40 @@ router.get('/transaction', (req: Request, res: Response) => ContainerFactory.cre
  */
 router.put('/transaction/:id', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleUpdateTransaction(req, res));
 
+/**
+ * @swagger
+ * /transaction/{id}:
+ *   get:
+ *     summary: Busca uma transação pelo ID
+ *     description: Retorna os detalhes de uma transação específica pelo seu ID
+ *     tags: [Transactions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID da transação a ser consultada
+ *     responses:
+ *       200:
+ *         description: Transação encontrada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TransactionDetail'
+ *       404:
+ *         description: Transação não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.get('/transaction/:id', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleFindTransaction(req, res));
+
 export default router;
