@@ -12,6 +12,7 @@ import { PrismaTransactionRepository } from "../infrastructure/db/prisma/PrismaT
 import { UserController } from "../infrastructure/web/express/controllers/UserController";
 import { PrismaUserRepository } from "../infrastructure/db/prisma/PrismaUserRepository";
 import { CreateUser } from "../application/useCases/User/CreateUser";
+import { ListUsers } from "../application/useCases/User/ListUsers";
 
 export class Container {
     public get transactionController(){
@@ -36,7 +37,8 @@ export class Container {
     public get userController() {
         const userRepository = new PrismaUserRepository();
         const createUser = new CreateUser(userRepository);
-        const userController = new UserController(createUser);
+        const listUsers = new ListUsers(userRepository);
+        const userController = new UserController(createUser, listUsers);
         return userController;
     }
 }

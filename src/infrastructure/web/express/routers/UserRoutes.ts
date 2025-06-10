@@ -41,7 +41,26 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *
+ *   get:
+ *     summary: Lista todos os usuários
+ *     description: Retorna uma lista com todos os usuários cadastrados no sistema
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Lista de usuários obtida com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ListUserOutput'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.post('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleCreateUser(req, res));
 
+router.get('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleListUsers(req, res));
 export default router;

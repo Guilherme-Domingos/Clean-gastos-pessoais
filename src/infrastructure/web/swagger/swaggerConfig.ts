@@ -339,6 +339,36 @@ const swaggerDefinition = {
           },
         },
       },
+      ListUserOutput: {
+        type: 'object',
+        properties: {
+          users: {
+            type: 'array',
+            description: 'Lista de usuários',
+            items: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'string',
+                  example: 'abc123-456def',
+                  description: 'ID do usuário',
+                },
+                name: {
+                  type: 'string',
+                  example: 'João Silva',
+                  description: 'Nome do usuário',
+                },
+                email: {
+                  type: 'string',
+                  format: 'email',
+                  example: 'joao@example.com',
+                  description: 'Email do usuário',
+                }
+              }
+            }
+          }
+        }
+      },
       
       // Schemas para Categories
       CreateCategoryInput: {
