@@ -37,5 +37,6 @@ const router = Router();
  *               $ref: '#/components/schemas/Error'
  */
 router.post('/transaction', (req, res) => ContainerFactory.createContainer().transactionController.handleCreateTransaction(req, res));
+router.delete('/transaction/:id', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleDeleteTransaction(req, res));
 
 export default router;
