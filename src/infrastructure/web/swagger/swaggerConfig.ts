@@ -137,6 +137,27 @@ const swaggerDefinition = {
         },
       },
       
+      DeleteTransactionOutput: {
+        type: 'object',
+        properties: {
+          success: {
+            type: 'boolean',
+            example: true,
+            description: 'Indica se a exclusão foi bem-sucedida',
+          },
+          message: {
+            type: 'string',
+            example: 'Transação com ID abc123 deletada com sucesso',
+            description: 'Mensagem de confirmação',
+          },
+          deletedId: {
+            type: 'string',
+            example: 'abc123',
+            description: 'ID da transação excluída (opcional)',
+          },
+        },
+      },
+      
       // Schemas para Users
       CreateUserInput: {
         type: 'object',
