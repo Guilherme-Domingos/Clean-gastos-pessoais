@@ -81,6 +81,77 @@ const swaggerDefinition = {
           },
         },
       },
+      
+      UpdateTransactionInput: {
+        type: 'object',
+        properties: {
+          date: {
+            type: 'string',
+            format: 'date-time',
+            example: '2025-06-03T00:00:00.000Z',
+            description: 'Nova data da transação',
+          },
+          amount: {
+            type: 'number',
+            format: 'float',
+            example: 150.75,
+            description: 'Novo valor da transação',
+          },
+          description: {
+            type: 'string',
+            example: 'Compra atualizada no supermercado',
+            description: 'Nova descrição da transação',
+          },
+          type: {
+            type: 'string',
+            enum: ['RECEITA', 'DESPESA'],
+            example: 'DESPESA',
+            description: 'Novo tipo da transação (receita ou despesa)',
+          },
+          sender: {
+            type: 'string',
+            example: 'Supermercado XYZ',
+            description: 'Novo remetente ou destinatário da transação',
+          },
+          categoryId: {
+            type: 'integer',
+            example: 2,
+            description: 'Novo ID da categoria da transação',
+          },
+        },
+      },
+      
+      UpdateTransactionOutput: {
+        type: 'object',
+        properties: {
+          data: {
+            type: 'object',
+            properties: {
+              id: {
+                type: 'string',
+                example: 'abc123-456def',
+                description: 'ID da transação atualizada',
+              },
+              success: {
+                type: 'boolean',
+                example: true,
+                description: 'Indica se a atualização foi bem-sucedida',
+              },
+              message: {
+                type: 'string',
+                example: 'Transaction updated successfully',
+                description: 'Mensagem de sucesso',
+              },
+            }
+          },
+          message: {
+            type: 'string',
+            example: 'Transaction updated successfully',
+            description: 'Mensagem de sucesso',
+          },
+        },
+      },
+      
       CreateTransactionOutput: {
         type: 'object',
         properties: {

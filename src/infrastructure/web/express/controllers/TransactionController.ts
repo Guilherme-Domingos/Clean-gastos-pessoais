@@ -2,12 +2,14 @@ import { Request, Response } from 'express';
 import { CreateTransaction } from '../../../../application/useCases/Transaction/CreateTransaction';
 import { DeleteTransaction } from '../../../../application/useCases/Transaction/DeleteTransaction';
 import { ListTransactions } from '../../../../application/useCases/Transaction/ListTransactions';
+import { UpdateTransaction } from '../../../../application/useCases/Transaction/UpdateTransaction';
 
 export class TransactionController {
     constructor(
         private createTransaction: CreateTransaction, 
         private deleteTransaction: DeleteTransaction,
-        private listTransactions: ListTransactions
+        private listTransactions: ListTransactions,
+        private updateTransaction: UpdateTransaction
     ) {}
 
     public async handleCreateTransaction(req: Request, res: Response): Promise<Response> {
@@ -49,4 +51,31 @@ export class TransactionController {
             res.status(500).json({ error: 'Internal server error' });
         }
     }
-}   
+
+    public async handleUpdateTransaction(req: Request, res: Response): Promise<Response> {
+        try {
+            const id = req.params.id;
+            const { date, amount, description, type, sender, userId, categoryId } = req.body;
+
+            const result = await this.updateTransaction.execute({
+                id,
+                date,
+                amount,
+                description,
+                type,
+                sender,
+                userId,
+                categoryId
+            });
+
+            if (!result.success) {
+                return res.status(404).json({ error: result.message });
+            }
+
+            return res.status(200).json({ data: result, message: result.message });
+        } catch (error) {
+            console.error('Error updating transaction:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+}

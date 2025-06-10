@@ -96,4 +96,47 @@ router.delete('/transaction/:id', (req: Request, res: Response) => ContainerFact
  *               $ref: '#/components/schemas/Error'
  */
 router.get('/transaction', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleListTransactions(res));
+
+/**
+ * @swagger
+ * /transaction/{id}:
+ *   put:
+ *     summary: Atualiza uma transação
+ *     description: Atualiza os dados de uma transação financeira existente pelo seu ID
+ *     tags: [Transactions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID da transação a ser atualizada
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateTransactionInput'
+ *     responses:
+ *       200:
+ *         description: Transação atualizada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UpdateTransactionOutput'
+ *       404:
+ *         description: Transação não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.put('/transaction/:id', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleUpdateTransaction(req, res));
+
 export default router;
