@@ -13,6 +13,7 @@ import { UserController } from "../infrastructure/web/express/controllers/UserCo
 import { PrismaUserRepository } from "../infrastructure/db/prisma/PrismaUserRepository";
 import { CreateUser } from "../application/useCases/User/CreateUser";
 import { ListUsers } from "../application/useCases/User/ListUsers";
+import { DeleteUser } from "../application/useCases/User/DeleteUser";
 
 export class Container {
     public get transactionController(){
@@ -32,13 +33,12 @@ export class Container {
             findUserTransactions
         );
         return transactionController;
-    }
-
-    public get userController() {
+    }    public get userController() {
         const userRepository = new PrismaUserRepository();
         const createUser = new CreateUser(userRepository);
         const listUsers = new ListUsers(userRepository);
-        const userController = new UserController(createUser, listUsers);
+        const deleteUser = new DeleteUser(userRepository);
+        const userController = new UserController(createUser, listUsers, deleteUser);
         return userController;
     }
 }

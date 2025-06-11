@@ -59,8 +59,51 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ * /user/{id}:
+ *   delete:
+ *     summary: Deleta um usuário
+ *     description: Remove um usuário do sistema pelo seu ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do usuário a ser excluído
+ *     responses:
+ *       200:
+ *         description: Usuário deletado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Usuário com ID abc123 deletado com sucesso
+ *                 deletedId:
+ *                   type: string
+ *                   example: abc123
+ *       404:
+ *         description: Usuário não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.post('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleCreateUser(req, res));
 
 router.get('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleListUsers(req, res));
+
+router.delete('/user/:id', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleDeleteUser(req, res));
 export default router;
