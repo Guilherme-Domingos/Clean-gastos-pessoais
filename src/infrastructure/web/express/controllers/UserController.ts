@@ -2,12 +2,14 @@ import { Request, Response } from 'express';
 import { CreateUser } from '../../../../application/useCases/User/CreateUser';
 import { ListUsers } from '../../../../application/useCases/User/ListUsers';
 import { DeleteUser } from '../../../../application/useCases/User/DeleteUser';
+import { UpdateUser } from '../../../../application/useCases/User/UpdateUser';
 
 export class UserController {
     constructor(
         private createUser: CreateUser,
         private listUsers: ListUsers,
-        private deleteUser: DeleteUser
+        private deleteUser: DeleteUser,
+        private updateUser: UpdateUser
     ) {}
 
     public async handleCreateUser(req: Request, res: Response): Promise<Response> {
@@ -49,6 +51,29 @@ export class UserController {
             return res.status(200).json(result);
         } catch (error) {
             console.error('Error deleting user:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
+    public async handleUpdateUser(req: Request, res: Response): Promise<Response> {
+        try {
+            const id = req.params.id;
+            const { name, email, password } = req.body;
+
+            const result = await this.updateUser.execute({
+                id,
+                name,
+                email,
+                password
+            });
+
+            if (!result.success) {
+                return res.status(404).json({ error: result.message });
+            }
+
+            return res.status(200).json({ data: result, message: result.message });
+        } catch (error) {
+            console.error('Error updating user:', error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     }

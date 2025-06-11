@@ -100,10 +100,82 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *   put:
+ *     summary: Atualiza um usuário
+ *     description: Atualiza os dados de um usuário existente no sistema pelo seu ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do usuário a ser atualizado
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Novo nome do usuário
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: Novo email do usuário
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 description: Nova senha do usuário
+ *     responses:
+ *       200:
+ *         description: Usuário atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   example: abc123
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Usuário atualizado com sucesso
+ *       400:
+ *         description: Dados inválidos na requisição
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Usuário não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       409:
+ *         description: Email já está em uso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.post('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleCreateUser(req, res));
 
 router.get('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleListUsers(req, res));
 
 router.delete('/user/:id', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleDeleteUser(req, res));
+
+router.put('/user/:id', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleUpdateUser(req, res));
 export default router;

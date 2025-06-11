@@ -29,12 +29,16 @@ export class PrismaUserRepository implements UserRepository {
                 senha: user.password,
             }
         });
-    }
-
+    }    
+    
     async update(user: User): Promise<void> {
         await prisma.usuario.update({
             where: { id: user.id },
-            data: user.toPersistentData(),
+            data: {
+                nome: user.name,
+                email: user.email,
+                senha: user.password
+            },
         });
     }
 
