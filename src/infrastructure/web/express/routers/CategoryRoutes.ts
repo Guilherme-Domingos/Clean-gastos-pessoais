@@ -185,4 +185,53 @@ router.put('/category/:id', (req: Request, res: Response) => ContainerFactory.cr
  *               $ref: '#/components/schemas/Error'
  */
 router.delete('/category/:id', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleDeleteCategory(req, res));
+
+/**
+ * @swagger
+ * /category/user/{userId}:
+ *   get:
+ *     summary: Lista categorias de um usuário específico
+ *     description: Retorna todas as categorias que pertencem a um determinado usuário
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do usuário para filtrar as categorias
+ *     responses:
+ *       200:
+ *         description: Categorias do usuário obtidas com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 categories:
+ *                   type: array
+ *                   description: Lista de categorias do usuário
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: ID da categoria
+ *                       name:
+ *                         type: string
+ *                         description: Nome da categoria
+ *       400:
+ *         description: ID de usuário não fornecido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.get('/category/user/:userId', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleFindUserCategories(req, res));
 export default router;

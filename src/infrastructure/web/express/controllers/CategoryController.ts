@@ -3,13 +3,15 @@ import { CreateCategory } from "../../../../application/useCases/Category/Create
 import { ListCategories } from "../../../../application/useCases/Category/ListCategory";
 import { UpdateCategory } from "../../../../application/useCases/Category/UpdateCategory";
 import { DeleteCategory } from "../../../../application/useCases/Category/DeleteCategory";
+import { FindUserCategories } from "../../../../application/useCases/Category/FindUserCategories";
 
 export class CategoryController {
     constructor(
         private createCategory: CreateCategory,
         private listCategories: ListCategories,
         private updateCategory: UpdateCategory,
-        private deleteCategory: DeleteCategory
+        private deleteCategory: DeleteCategory,
+        private findUserCategories: FindUserCategories
     ) {}
 
     public async handleCreateCategory(req: Request, res: Response): Promise<Response> {
@@ -80,6 +82,23 @@ export class CategoryController {
             return res.status(200).json({ message: 'Category deleted successfully' });
         } catch (error) {
             console.error('Error deleting category:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
+    public async handleFindUserCategories(req: Request, res: Response): Promise<Response> {
+        try {
+            const userId = req.params.userId;
+
+            if (!userId) {
+                return res.status(400).json({ error: 'User ID is required' });
+            }
+
+            const categories = await this.findUserCategories.execute({ userId });
+
+            return res.status(200).json(categories);
+        } catch (error) {
+            console.error('Error finding user categories:', error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     }

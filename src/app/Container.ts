@@ -24,6 +24,7 @@ import { CreateCategory } from "../application/useCases/Category/CreateCategory"
 import { ListCategories } from "../application/useCases/Category/ListCategory";
 import { UpdateCategory } from "../application/useCases/Category/UpdateCategory";
 import { DeleteCategory } from "../application/useCases/Category/DeleteCategory";
+import { FindUserCategories } from "../application/useCases/Category/FindUserCategories";
 
 export class Container {
     public get transactionController(){
@@ -68,11 +69,13 @@ export class Container {
     const listCategories = new ListCategories(categoryRepository);
     const updateCategory = new UpdateCategory(categoryRepository);
     const deleteCategory = new DeleteCategory(categoryRepository);
+    const findUserCategories = new FindUserCategories(categoryRepository);
     const categoryController = new CategoryController(
         createCategory,
         listCategories,
         updateCategory,
-        deleteCategory
+        deleteCategory,
+        findUserCategories
     );
     return categoryController;
 }
