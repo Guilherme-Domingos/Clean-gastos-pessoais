@@ -81,7 +81,7 @@ import { Router } from "express";
 
 /**
  * @swagger
- * /categories:
+ * /category:
  *   post:
  *     summary: Cria uma nova categoria
  *     tags: [Categories]

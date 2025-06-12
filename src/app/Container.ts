@@ -17,6 +17,11 @@ import { DeleteUser } from "../application/useCases/User/DeleteUser";
 import { UpdateUser } from "../application/useCases/User/UpdateUser";
 import { FindUser } from "../application/useCases/User/FindUser";
 
+// Importações necessárias da entidade categoria
+import { CategoryController } from "../infrastructure/web/express/controllers/CategoryController";
+import { PrismaCategoryRepository } from "../infrastructure/db/prisma/PrismaCategoryRepository";
+import { CreateCategory } from "../application/useCases/Category/CreateCategory";
+
 export class Container {
     public get transactionController(){
         const TransactionRepository = new PrismaTransactionRepository();
@@ -35,14 +40,31 @@ export class Container {
             findUserTransactions
         );
         return transactionController;
-    }    public get userController() {
+    }    
+    
+    public get userController() {
         const userRepository = new PrismaUserRepository();
         const createUser = new CreateUser(userRepository);
         const listUsers = new ListUsers(userRepository);
         const deleteUser = new DeleteUser(userRepository);
         const updateUser = new UpdateUser(userRepository);
         const findUser = new FindUser(userRepository);
-        const userController = new UserController(createUser, listUsers, deleteUser, updateUser, findUser);
+        const userController = new UserController(
+            createUser, 
+            listUsers, 
+            deleteUser, 
+            updateUser, 
+            findUser
+        );
         return userController;
-    }
+    }    
+    
+    public get categoryController() {
+    const categoryRepository = new PrismaCategoryRepository();
+    const createCategory = new CreateCategory(categoryRepository);
+    const categoryController = new CategoryController(
+        createCategory
+    );
+    return categoryController;
+}
 }
