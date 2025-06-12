@@ -21,6 +21,7 @@ import { FindUser } from "../application/useCases/User/FindUser";
 import { CategoryController } from "../infrastructure/web/express/controllers/CategoryController";
 import { PrismaCategoryRepository } from "../infrastructure/db/prisma/PrismaCategoryRepository";
 import { CreateCategory } from "../application/useCases/Category/CreateCategory";
+import { ListCategories } from "../application/useCases/Category/ListCategory";
 
 export class Container {
     public get transactionController(){
@@ -62,8 +63,10 @@ export class Container {
     public get categoryController() {
     const categoryRepository = new PrismaCategoryRepository();
     const createCategory = new CreateCategory(categoryRepository);
+    const listCategories = new ListCategories(categoryRepository);
     const categoryController = new CategoryController(
-        createCategory
+        createCategory,
+        listCategories
     );
     return categoryController;
 }

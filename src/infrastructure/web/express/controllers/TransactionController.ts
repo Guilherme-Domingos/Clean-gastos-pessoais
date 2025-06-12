@@ -41,7 +41,7 @@ export class TransactionController {
         try {
             const id = req.params.id;
             const result = await this.deleteTransaction.execute({ id });
-            res.status(201).json(result);
+            res.status(204).json(result);
         } catch (error) {
             res.status(500).json({ error: 'Internal server error' });
         }
@@ -50,7 +50,7 @@ export class TransactionController {
     public async handleListTransactions(res: Response){
         try {
             const transactions = await this.listTransactions.execute();
-            res.status(201).json(transactions);
+            res.status(200).json(transactions);
         } catch (error) {
             res.status(500).json({ error: 'Internal server error' });
         }

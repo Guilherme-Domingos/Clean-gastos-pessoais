@@ -45,4 +45,42 @@ const router = Router();
  */
 router.post('/category', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleCreateCategory(req, res));
 
+/**
+ * @swagger
+ * /category:
+ *   get:
+ *     summary: Lista todas as categorias
+ *     description: Retorna uma lista com todas as categorias cadastradas no sistema
+ *     tags: [Categories]
+ *     responses:
+ *       200:
+ *         description: Lista de categorias obtida com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 categories:
+ *                   type: array
+ *                   description: Lista de categorias
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: ID da categoria
+ *                       name:
+ *                         type: string
+ *                         description: Nome da categoria
+ *                       userId:
+ *                         type: string
+ *                         description: ID do usuário proprietário da categoria
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.get('/category', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleListCategories(req, res));
 export default router;
