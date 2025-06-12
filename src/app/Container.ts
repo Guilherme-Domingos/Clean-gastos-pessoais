@@ -23,6 +23,7 @@ import { PrismaCategoryRepository } from "../infrastructure/db/prisma/PrismaCate
 import { CreateCategory } from "../application/useCases/Category/CreateCategory";
 import { ListCategories } from "../application/useCases/Category/ListCategory";
 import { UpdateCategory } from "../application/useCases/Category/UpdateCategory";
+import { DeleteCategory } from "../application/useCases/Category/DeleteCategory";
 
 export class Container {
     public get transactionController(){
@@ -66,10 +67,12 @@ export class Container {
     const createCategory = new CreateCategory(categoryRepository);
     const listCategories = new ListCategories(categoryRepository);
     const updateCategory = new UpdateCategory(categoryRepository);
+    const deleteCategory = new DeleteCategory(categoryRepository);
     const categoryController = new CategoryController(
         createCategory,
         listCategories,
-        updateCategory
+        updateCategory,
+        deleteCategory
     );
     return categoryController;
 }

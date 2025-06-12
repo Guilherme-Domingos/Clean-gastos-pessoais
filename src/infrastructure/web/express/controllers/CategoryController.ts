@@ -2,12 +2,14 @@ import { Request, Response } from "express";
 import { CreateCategory } from "../../../../application/useCases/Category/CreateCategory";
 import { ListCategories } from "../../../../application/useCases/Category/ListCategory";
 import { UpdateCategory } from "../../../../application/useCases/Category/UpdateCategory";
+import { DeleteCategory } from "../../../../application/useCases/Category/DeleteCategory";
 
 export class CategoryController {
     constructor(
         private createCategory: CreateCategory,
         private listCategories: ListCategories,
-        private updateCategory: UpdateCategory
+        private updateCategory: UpdateCategory,
+        private deleteCategory: DeleteCategory
     ) {}
 
     public async handleCreateCategory(req: Request, res: Response): Promise<Response> {
@@ -33,7 +35,9 @@ export class CategoryController {
         } catch (error) {
             res.status(500).json({ error: 'Internal server error' });
         }
-    }    public async handleUpdateCategory(req: Request, res: Response): Promise<Response> {
+    }    
+    
+    public async handleUpdateCategory(req: Request, res: Response): Promise<Response> {
         try {
             const id = parseInt(req.params.id);
             const { name, userId } = req.body;
@@ -55,6 +59,27 @@ export class CategoryController {
             return res.status(200).json({data: category.id, message: 'Category updated successfully'});
         } catch (error) {
             console.error('Error updating category:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
+    public async handleDeleteCategory(req: Request, res: Response): Promise<Response> {
+        try {
+            const id = parseInt(req.params.id);
+            
+            if (isNaN(id)) {
+                return res.status(400).json({ error: 'Invalid category ID' });
+            }
+
+            const result = await this.deleteCategory.execute({ id });
+
+            if (!result.success) {
+                return res.status(404).json({ error: result.message });
+            }
+
+            return res.status(200).json({ message: 'Category deleted successfully' });
+        } catch (error) {
+            console.error('Error deleting category:', error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     }

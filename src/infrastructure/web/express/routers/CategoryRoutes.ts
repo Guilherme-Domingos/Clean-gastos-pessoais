@@ -138,4 +138,51 @@ router.get('/category', (req: Request, res: Response) => ContainerFactory.create
  *               $ref: '#/components/schemas/Error'
  */
 router.put('/category/:id', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleUpdateCategory(req, res));
+
+/**
+ * @swagger
+ * /category/{id}:
+ *   delete:
+ *     summary: Deleta uma categoria
+ *     description: Remove uma categoria existente pelo seu ID
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID da categoria a ser excluída
+ *     responses:
+ *       200:
+ *         description: Categoria deletada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Category deleted successfully
+ *                   description: Mensagem de sucesso
+ *       400:
+ *         description: ID de categoria inválido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Categoria não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.delete('/category/:id', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleDeleteCategory(req, res));
 export default router;

@@ -20,7 +20,7 @@ export class DeleteTransaction implements UseCase<DeleteTransactionInputDTO, Del
     private presentOutput(id: String): DeleteTransactionOutputDTO {
         return {
             success: true,
-            message: `Livro com ID ${id} deletado com sucesso`
+            message: `Transação com ID ${id} deletado com sucesso`
         };
     }
 }
