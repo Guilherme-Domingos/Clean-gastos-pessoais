@@ -41,7 +41,12 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
- *
+ */
+router.post('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleCreateUser(req, res));
+
+/**
+ * @swagger
+ * /user:
  *   get:
  *     summary: Lista todos os usuários
  *     description: Retorna uma lista com todos os usuários cadastrados no sistema
@@ -59,6 +64,11 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ */
+router.get('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleListUsers(req, res));
+
+/**
+ * @swagger
  * /user/{id}:
  *   delete:
  *     summary: Deleta um usuário
@@ -100,6 +110,12 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ */
+router.delete('/user/:id', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleDeleteUser(req, res));
+
+/**
+ * @swagger
+ * /user/{id}:
  *   put:
  *     summary: Atualiza um usuário
  *     description: Atualiza os dados de um usuário existente no sistema pelo seu ID
@@ -171,11 +187,55 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleCreateUser(req, res));
-
-router.get('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleListUsers(req, res));
-
-router.delete('/user/:id', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleDeleteUser(req, res));
-
 router.put('/user/:id', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleUpdateUser(req, res));
+
+/**
+ * @swagger
+ * /user/{id}:
+ *   get:
+ *     summary: Encontra um usuário pelo ID
+ *     description: Busca e retorna os dados de um usuário específico pelo seu ID
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do usuário a ser encontrado
+ *     responses:
+ *       200:
+ *         description: Usuário encontrado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: abc123
+ *                     name:
+ *                       type: string
+ *                       example: João Silva
+ *                     email:
+ *                       type: string
+ *                       example: joao.silva@example.com
+ *       404:
+ *         description: Usuário não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.get('/user/:id', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleFindUser(req, res));
+
 export default router;

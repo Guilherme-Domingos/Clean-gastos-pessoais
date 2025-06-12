@@ -15,6 +15,7 @@ import { CreateUser } from "../application/useCases/User/CreateUser";
 import { ListUsers } from "../application/useCases/User/ListUsers";
 import { DeleteUser } from "../application/useCases/User/DeleteUser";
 import { UpdateUser } from "../application/useCases/User/UpdateUser";
+import { FindUser } from "../application/useCases/User/FindUser";
 
 export class Container {
     public get transactionController(){
@@ -40,7 +41,8 @@ export class Container {
         const listUsers = new ListUsers(userRepository);
         const deleteUser = new DeleteUser(userRepository);
         const updateUser = new UpdateUser(userRepository);
-        const userController = new UserController(createUser, listUsers, deleteUser, updateUser);
+        const findUser = new FindUser(userRepository);
+        const userController = new UserController(createUser, listUsers, deleteUser, updateUser, findUser);
         return userController;
     }
 }
