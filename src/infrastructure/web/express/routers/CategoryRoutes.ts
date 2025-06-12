@@ -83,4 +83,59 @@ router.post('/category', (req: Request, res: Response) => ContainerFactory.creat
  *               $ref: '#/components/schemas/Error'
  */
 router.get('/category', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleListCategories(req, res));
+
+/**
+ * @swagger
+ * /category/{id}:
+ *   put:
+ *     summary: Atualiza uma categoria existente
+ *     description: Atualiza os dados de uma categoria existente pelo ID
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID da categoria a ser atualizada
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateCategoryInput'
+ *     responses:
+ *       200:
+ *         description: Categoria atualizada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: integer
+ *                   description: ID da categoria atualizada
+ *                 message:
+ *                   type: string
+ *                   description: Mensagem de sucesso
+ *       400:
+ *         description: Dados inválidos na requisição
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Categoria não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.put('/category/:id', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleUpdateCategory(req, res));
 export default router;

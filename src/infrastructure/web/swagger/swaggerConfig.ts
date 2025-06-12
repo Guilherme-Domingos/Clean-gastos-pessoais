@@ -401,7 +401,8 @@ const swaggerDefinition = {
             description: 'Mensagem de sucesso',
           },
         },
-      },
+      },      
+      
       Category: {
         type: 'object',
         properties: {
@@ -416,6 +417,44 @@ const swaggerDefinition = {
           userId: {
             type: 'string',
             description: 'ID do usuário proprietário da categoria',
+          },
+        },
+      },
+      
+      UpdateCategoryInput: {
+        type: 'object',
+        required: ['id'],
+        properties: {
+          id: {
+            type: 'integer',
+            example: 1,
+            description: 'ID da categoria a ser atualizada',
+          },
+          name: {
+            type: 'string',
+            example: 'Alimentação Fora',
+            description: 'Novo nome da categoria',
+          },
+          // userId: {
+          //   type: 'string',
+          //   example: 'user-123',
+          //   description: 'ID do usuário proprietário (opcional)',
+          // },
+        },
+      },
+      
+      UpdateCategoryOutput: {
+        type: 'object',
+        properties: {
+          data: {
+            type: 'integer',
+            example: 1,
+            description: 'ID da categoria atualizada',
+          },
+          message: {
+            type: 'string',
+            example: 'Category updated successfully',
+            description: 'Mensagem de sucesso',
           },
         },
       },

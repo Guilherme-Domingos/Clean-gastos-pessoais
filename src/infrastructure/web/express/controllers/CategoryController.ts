@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import { CreateCategory } from "../../../../application/useCases/Category/CreateCategory";
 import { ListCategories } from "../../../../application/useCases/Category/ListCategory";
+import { UpdateCategory } from "../../../../application/useCases/Category/UpdateCategory";
 
 export class CategoryController {
     constructor(
         private createCategory: CreateCategory,
-        private listCategories: ListCategories
+        private listCategories: ListCategories,
+        private updateCategory: UpdateCategory
     ) {}
 
     public async handleCreateCategory(req: Request, res: Response): Promise<Response> {
@@ -22,12 +24,38 @@ export class CategoryController {
             console.error('Error creating category:', error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
-    }    public async handleListCategories(req: Request, res: Response){
+    }    
+    
+    public async handleListCategories(req: Request, res: Response){
         try {
             const categories = await this.listCategories.execute();
             res.status(200).json(categories);
         } catch (error) {
             res.status(500).json({ error: 'Internal server error' });
+        }
+    }    public async handleUpdateCategory(req: Request, res: Response): Promise<Response> {
+        try {
+            const id = parseInt(req.params.id);
+            const { name, userId } = req.body;
+            
+            if (isNaN(id)) {
+                return res.status(400).json({ error: 'Invalid category ID' });
+            }
+
+            const category = await this.updateCategory.execute({
+                id,
+                name,
+                userId
+            });
+            
+            if (!category.success) {
+                return res.status(404).json({ error: category.message });
+            }
+
+            return res.status(200).json({data: category.id, message: 'Category updated successfully'});
+        } catch (error) {
+            console.error('Error updating category:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
     }
 }

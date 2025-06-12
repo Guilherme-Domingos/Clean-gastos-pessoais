@@ -22,6 +22,7 @@ import { CategoryController } from "../infrastructure/web/express/controllers/Ca
 import { PrismaCategoryRepository } from "../infrastructure/db/prisma/PrismaCategoryRepository";
 import { CreateCategory } from "../application/useCases/Category/CreateCategory";
 import { ListCategories } from "../application/useCases/Category/ListCategory";
+import { UpdateCategory } from "../application/useCases/Category/UpdateCategory";
 
 export class Container {
     public get transactionController(){
@@ -64,9 +65,11 @@ export class Container {
     const categoryRepository = new PrismaCategoryRepository();
     const createCategory = new CreateCategory(categoryRepository);
     const listCategories = new ListCategories(categoryRepository);
+    const updateCategory = new UpdateCategory(categoryRepository);
     const categoryController = new CategoryController(
         createCategory,
-        listCategories
+        listCategories,
+        updateCategory
     );
     return categoryController;
 }
