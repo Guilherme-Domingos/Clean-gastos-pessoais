@@ -5,7 +5,7 @@ export type ListTransactionOutputDTO = {
         amount: number;
         description: string;
         date: Date;
-        categoryId: string;
+        categoryId: number;
         transactionType: 'RECEITA' | 'DESPESA';
         sender?: string;
     }[]

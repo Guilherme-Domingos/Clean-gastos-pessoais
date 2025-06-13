@@ -5,19 +5,18 @@ import { UserRepository } from "../../../domain/repositories/UserRepository";
 const prisma = new PrismaClient();
 
 export class PrismaUserRepository implements UserRepository {    
-    
-    async findById(id: string): Promise<User | null> {
+      async findById(id: string): Promise<User | null> {
         const user = await prisma.usuario.findUnique({
             where: { id },
         });
-        return user ? User.fromPersistentData({ id: user.id, name: user.nome, email: user.email} as UserProps) : null;
+        return user ? User.fromPersistentData({ id: user.id, name: user.nome, email: user.email, password: user.senha } as UserProps) : null;
     }
 
     async findByEmail(email: string): Promise<User | null> {
         const user = await prisma.usuario.findUnique({
             where: { email },
         });
-        return user ? User.fromPersistentData({id: user.id, name: user.nome, email: user.email} as UserProps) : null;
+        return user ? User.fromPersistentData({id: user.id, name: user.nome, email: user.email, password: user.senha } as UserProps) : null;
     }
 
     async save(user: User): Promise<void> {

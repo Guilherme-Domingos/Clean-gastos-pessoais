@@ -1,15 +1,17 @@
 import { Router, Request, Response } from "express";
 import { ContainerFactory } from "../../../../app/ContainerFactory";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 const router = Router();
 
-/**
- * @swagger
+/** * @swagger
  * /transaction:
  *   post:
  *     summary: Cria uma nova transação
  *     description: Cria uma nova transação financeira (receita ou despesa)
  *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -36,15 +38,16 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/transaction', (req, res) => ContainerFactory.createContainer().transactionController.handleCreateTransaction(req, res));
+router.post('/transaction', authMiddleware, (req, res) => ContainerFactory.createContainer().transactionController.handleCreateTransaction(req, res));
 
-/**
- * @swagger
+/** * @swagger
  * /transaction/{id}:
  *   delete:
  *     summary: Deleta uma transação
  *     description: Remove uma transação financeira existente pelo seu ID
  *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -72,15 +75,16 @@ router.post('/transaction', (req, res) => ContainerFactory.createContainer().tra
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete('/transaction/:id', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleDeleteTransaction(req, res));
+router.delete('/transaction/:id', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleDeleteTransaction(req, res));
 
-/**
- * @swagger
+/** * @swagger
  * /transaction:
  *   get:
  *     summary: Lista todas as transações
  *     description: Retorna uma lista com todas as transações financeiras cadastradas
  *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       201:
  *         description: Lista de transações obtida com sucesso
@@ -95,15 +99,16 @@ router.delete('/transaction/:id', (req: Request, res: Response) => ContainerFact
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/transaction', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleListTransactions(res));
+router.get('/transaction',(req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleListTransactions(res));
 
-/**
- * @swagger
+/** * @swagger
  * /transaction/{id}:
  *   put:
  *     summary: Atualiza uma transação
  *     description: Atualiza os dados de uma transação financeira existente pelo seu ID
  *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -137,15 +142,16 @@ router.get('/transaction', (req: Request, res: Response) => ContainerFactory.cre
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.put('/transaction/:id', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleUpdateTransaction(req, res));
+router.put('/transaction/:id', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleUpdateTransaction(req, res));
 
-/**
- * @swagger
+/** * @swagger
  * /transaction/{id}:
  *   get:
  *     summary: Busca uma transação pelo ID
  *     description: Retorna os detalhes de uma transação específica pelo seu ID
  *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -173,15 +179,16 @@ router.put('/transaction/:id', (req: Request, res: Response) => ContainerFactory
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/transaction/:id', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleFindTransaction(req, res));
+router.get('/transaction/:id', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleFindTransaction(req, res));
 
-/**
- * @swagger
+/** * @swagger
  * /user/{userId}/transactions:
  *   get:
  *     summary: Busca todas as transações de um usuário
  *     description: Retorna uma lista com todas as transações financeiras de um usuário específico
  *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: userId
@@ -209,6 +216,6 @@ router.get('/transaction/:id', (req: Request, res: Response) => ContainerFactory
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/user/:userId/transactions', (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleFindUserTransactions(req, res));
+router.get('/user/:userId/transactions', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleFindUserTransactions(req, res));
 
 export default router;

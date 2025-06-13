@@ -32,9 +32,21 @@ const swaggerDefinition = {
     {
       name: 'Monthly Goals',
       description: 'Operações relacionadas a metas mensais'
+    },
+    {
+      name: 'Authentication',
+      description: 'Operações relacionadas a autenticação e segurança'
     }
   ],
   components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        description: 'Insira o token JWT no formato "Bearer {token}"'
+      }
+    },
     schemas: {
       // Schemas para Transactions
       CreateTransactionInput: {

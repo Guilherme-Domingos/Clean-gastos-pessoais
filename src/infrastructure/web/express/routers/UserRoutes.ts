@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { ContainerFactory } from "../../../../app/ContainerFactory";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 const router = Router();
 
@@ -44,13 +45,14 @@ const router = Router();
  */
 router.post('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleCreateUser(req, res));
 
-/**
- * @swagger
+/** * @swagger
  * /user:
  *   get:
  *     summary: Lista todos os usuários
  *     description: Retorna uma lista com todos os usuários cadastrados no sistema
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Lista de usuários obtida com sucesso
@@ -65,15 +67,16 @@ router.post('/user', (req: Request, res: Response) => ContainerFactory.createCon
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleListUsers(req, res));
+router.get('/user', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleListUsers(req, res));
 
-/**
- * @swagger
+/** * @swagger
  * /user/{id}:
  *   delete:
  *     summary: Deleta um usuário
  *     description: Remove um usuário do sistema pelo seu ID
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -111,15 +114,16 @@ router.get('/user', (req: Request, res: Response) => ContainerFactory.createCont
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete('/user/:id', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleDeleteUser(req, res));
+router.delete('/user/:id', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleDeleteUser(req, res));
 
-/**
- * @swagger
+/** * @swagger
  * /user/{id}:
  *   put:
  *     summary: Atualiza um usuário
  *     description: Atualiza os dados de um usuário existente no sistema pelo seu ID
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -187,15 +191,16 @@ router.delete('/user/:id', (req: Request, res: Response) => ContainerFactory.cre
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.put('/user/:id', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleUpdateUser(req, res));
+router.put('/user/:id', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleUpdateUser(req, res));
 
-/**
- * @swagger
+/** * @swagger
  * /user/{id}:
  *   get:
  *     summary: Encontra um usuário pelo ID
  *     description: Busca e retorna os dados de um usuário específico pelo seu ID
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -236,6 +241,6 @@ router.put('/user/:id', (req: Request, res: Response) => ContainerFactory.create
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/user/:id', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleFindUser(req, res));
+router.get('/user/:id', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleFindUser(req, res));
 
 export default router;

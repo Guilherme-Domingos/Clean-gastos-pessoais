@@ -25,7 +25,7 @@ export class ListTransactions implements UseCase<ListTransactionInputDTO, ListTr
                     description: transaction.description || "",
                     transactionType: transaction.type,
                     sender: transaction.sender,
-                    categoryId: transaction.categoryId?.toString() || ""
+                    categoryId: transaction.categoryId || 0
                 };
             }),
         };

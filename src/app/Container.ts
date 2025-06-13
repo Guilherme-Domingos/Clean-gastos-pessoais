@@ -17,6 +17,12 @@ import { DeleteUser } from "../application/useCases/User/DeleteUser";
 import { UpdateUser } from "../application/useCases/User/UpdateUser";
 import { FindUser } from "../application/useCases/User/FindUser";
 
+// Importações necessárias da autenticação
+import { AuthController } from "../infrastructure/web/express/controllers/AuthController";
+import { Authenticate } from "../application/useCases/Auth/Authenticate";
+import { PasswordHasher } from "../infrastructure/security/PasswordHasher";
+import { JwtAdapter } from "../infrastructure/security/JwtAdapter";
+
 // Importações necessárias da entidade categoria
 import { CategoryController } from "../infrastructure/web/express/controllers/CategoryController";
 import { PrismaCategoryRepository } from "../infrastructure/db/prisma/PrismaCategoryRepository";
@@ -45,14 +51,16 @@ export class Container {
         );
         return transactionController;
     }    
-    
-    public get userController() {
+      public get userController() {
         const userRepository = new PrismaUserRepository();
-        const createUser = new CreateUser(userRepository);
+        const passwordHasher = new PasswordHasher();
+        
+        const createUser = new CreateUser(userRepository, passwordHasher);
         const listUsers = new ListUsers(userRepository);
         const deleteUser = new DeleteUser(userRepository);
-        const updateUser = new UpdateUser(userRepository);
+        const updateUser = new UpdateUser(userRepository, passwordHasher);
         const findUser = new FindUser(userRepository);
+        
         const userController = new UserController(
             createUser, 
             listUsers, 
@@ -61,7 +69,7 @@ export class Container {
             findUser
         );
         return userController;
-    }    
+    }
     
     public get categoryController() {
     const categoryRepository = new PrismaCategoryRepository();
@@ -78,5 +86,10 @@ export class Container {
         findUserCategories
     );
     return categoryController;
-}
+}    public get authController() {
+        const userRepository = new PrismaUserRepository();
+        const authenticate = new Authenticate(userRepository);
+        const authController = new AuthController(authenticate, userRepository);
+        return authController;
+    }
 }

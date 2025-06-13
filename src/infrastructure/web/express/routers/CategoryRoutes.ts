@@ -1,15 +1,17 @@
 import { Router, Request, Response } from "express";
 import { ContainerFactory } from "../../../../app/ContainerFactory";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 const router = Router();
 
-/**
- * @swagger
+/** * @swagger
  * /category:
  *   post:
  *     summary: Cria uma nova categoria
  *     description: Cria uma nova categoria para classificação de transações
  *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -43,15 +45,16 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/category', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleCreateCategory(req, res));
+router.post('/category', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleCreateCategory(req, res));
 
-/**
- * @swagger
+/** * @swagger
  * /category:
  *   get:
  *     summary: Lista todas as categorias
  *     description: Retorna uma lista com todas as categorias cadastradas no sistema
  *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Lista de categorias obtida com sucesso
@@ -82,15 +85,16 @@ router.post('/category', (req: Request, res: Response) => ContainerFactory.creat
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/category', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleListCategories(req, res));
+router.get('/category', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleListCategories(req, res));
 
-/**
- * @swagger
+/** * @swagger
  * /category/{id}:
  *   put:
  *     summary: Atualiza uma categoria existente
  *     description: Atualiza os dados de uma categoria existente pelo ID
  *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -137,15 +141,16 @@ router.get('/category', (req: Request, res: Response) => ContainerFactory.create
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.put('/category/:id', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleUpdateCategory(req, res));
+router.put('/category/:id', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleUpdateCategory(req, res));
 
-/**
- * @swagger
+/** * @swagger
  * /category/{id}:
  *   delete:
  *     summary: Deleta uma categoria
  *     description: Remove uma categoria existente pelo seu ID
  *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -184,15 +189,16 @@ router.put('/category/:id', (req: Request, res: Response) => ContainerFactory.cr
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete('/category/:id', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleDeleteCategory(req, res));
+router.delete('/category/:id', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleDeleteCategory(req, res));
 
-/**
- * @swagger
+/** * @swagger
  * /category/user/{userId}:
  *   get:
  *     summary: Lista categorias de um usuário específico
  *     description: Retorna todas as categorias que pertencem a um determinado usuário
  *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: userId
@@ -233,5 +239,5 @@ router.delete('/category/:id', (req: Request, res: Response) => ContainerFactory
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/category/user/:userId', (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleFindUserCategories(req, res));
+router.get('/category/user/:userId', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleFindUserCategories(req, res));
 export default router;
