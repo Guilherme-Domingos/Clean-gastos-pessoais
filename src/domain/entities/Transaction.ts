@@ -23,6 +23,13 @@ export class Transaction {
         userId: string,
         categoryId?: number
     ): Transaction {
+        // Validar se a data não está no futuro
+        const currentDate = new Date();
+        const inputDate = new Date(date);
+        if (inputDate > currentDate) {
+            throw new Error('Data da transação não pode ser no futuro');
+        }
+        
         return new Transaction({ 
             id: crypto.randomUUID(), 
             date, 

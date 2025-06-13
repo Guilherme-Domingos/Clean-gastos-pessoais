@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { ContainerFactory } from "../../../../app/ContainerFactory";
 import { authMiddleware } from "../middlewares/authMiddleware";
+import { ownershipMiddleware } from "../middlewares/ownershipMiddleware";
 
 const router = Router();
 
@@ -43,7 +44,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleCreateUser(req, res));
+router.post('/user', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleCreateUser(req, res));
 
 /** * @swagger
  * /user:
@@ -241,6 +242,6 @@ router.put('/user/:id', authMiddleware, (req: Request, res: Response) => Contain
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/user/:id', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleFindUser(req, res));
+router.get('/user/:id', authMiddleware, ownershipMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleFindUser(req, res));
 
 export default router;
