@@ -3,6 +3,7 @@ import { CreateTransaction } from "../application/useCases/Transaction/CreateTra
 import { DeleteTransaction } from "../application/useCases/Transaction/DeleteTransaction";
 import { FindTransaction } from "../application/useCases/Transaction/FindTransaction";
 import { FindUserTransactions } from "../application/useCases/Transaction/FindUserTransactions";
+import { FindUserTransactionsByMonth } from "../application/useCases/Transaction/FindUserTransactionsByMonth";
 import { ListTransactions } from "../application/useCases/Transaction/ListTransactions";
 import { UpdateTransaction } from "../application/useCases/Transaction/UpdateTransaction";
 import { TransactionController } from "../infrastructure/web/express/controllers/TransactionController";
@@ -41,13 +42,15 @@ export class Container {
         const updateTransaction = new UpdateTransaction(TransactionRepository);
         const findTransaction = new FindTransaction(TransactionRepository);
         const findUserTransactions = new FindUserTransactions(TransactionRepository);
+        const findUserTransactionsByMonth = new FindUserTransactionsByMonth(TransactionRepository);
         const transactionController = new TransactionController(
             createTransaction, 
             deleteTransaction, 
             listTransactions, 
             updateTransaction,
             findTransaction,
-            findUserTransactions
+            findUserTransactions,
+            findUserTransactionsByMonth
         );
         return transactionController;
     }    

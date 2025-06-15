@@ -218,4 +218,53 @@ router.get('/transaction/:id', authMiddleware, (req: Request, res: Response) => 
  */
 router.get('/user/:userId/transactions', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleFindUserTransactions(req, res));
 
+/** * @swagger
+ * /user/{userId}/transactions/{year}/{month}:
+ *   get:
+ *     summary: Busca todas as transações de um usuário em um mês específico
+ *     description: Retorna uma lista com todas as transações financeiras de um usuário específico para o mês e ano informados, além de um resumo com totais
+ *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do usuário para buscar suas transações
+ *       - in: path
+ *         name: year
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Ano para filtrar as transações (ex: 2025)
+ *       - in: path
+ *         name: month
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Mês para filtrar as transações (1-12)
+ *     responses:
+ *       200:
+ *         description: Transações do mês encontradas com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserTransactionsByMonth'
+ *       404:
+ *         description: Usuário não encontrado ou sem transações no período
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.get('/user/:userId/transactions/:year/:month', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleFindUserTransactionsByMonth(req, res));
+
 export default router;

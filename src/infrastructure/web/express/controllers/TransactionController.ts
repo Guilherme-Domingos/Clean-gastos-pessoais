@@ -3,6 +3,7 @@ import { CreateTransaction } from '../../../../application/useCases/Transaction/
 import { DeleteTransaction } from '../../../../application/useCases/Transaction/DeleteTransaction';
 import { FindTransaction } from '../../../../application/useCases/Transaction/FindTransaction';
 import { FindUserTransactions } from '../../../../application/useCases/Transaction/FindUserTransactions';
+import { FindUserTransactionsByMonth } from '../../../../application/useCases/Transaction/FindUserTransactionsByMonth';
 import { ListTransactions } from '../../../../application/useCases/Transaction/ListTransactions';
 import { UpdateTransaction } from '../../../../application/useCases/Transaction/UpdateTransaction';
 
@@ -13,7 +14,8 @@ export class TransactionController {
         private listTransactions: ListTransactions,
         private updateTransaction: UpdateTransaction,
         private findTransaction: FindTransaction,
-        private findUserTransactions: FindUserTransactions
+        private findUserTransactions: FindUserTransactions,
+        private findUserTransactionsByMonth: FindUserTransactionsByMonth
     ) {}
 
     public async handleCreateTransaction(req: Request, res: Response): Promise<Response> {
@@ -107,6 +109,30 @@ export class TransactionController {
             return res.status(200).json(result);
         } catch (error) {
             console.error('Error finding user transactions:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
+    public async handleFindUserTransactionsByMonth(req: Request, res: Response): Promise<Response> {
+        try {
+            const userId = req.params.userId;
+            const month = parseInt(req.params.month);
+            const year = parseInt(req.params.year);
+            
+            // Validação básica dos parâmetros
+            if (isNaN(month) || month < 1 || month > 12) {
+                return res.status(400).json({ error: 'Mês inválido. Deve estar entre 1 e 12.' });
+            }
+            
+            if (isNaN(year) || year < 2000 || year > 2100) {
+                return res.status(400).json({ error: 'Ano inválido.' });
+            }
+            
+            const result = await this.findUserTransactionsByMonth.execute({ userId, month, year });
+            
+            return res.status(200).json(result);
+        } catch (error) {
+            console.error('Error finding user transactions by month:', error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     }

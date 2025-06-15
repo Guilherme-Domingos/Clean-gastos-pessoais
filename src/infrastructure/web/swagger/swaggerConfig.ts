@@ -667,6 +667,37 @@ const swaggerDefinition = {
           }
         }
       },
+      UserTransactionsByMonth: {
+        type: 'object',
+        properties: {
+          transactions: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/Transaction'
+            }
+          },
+          summary: {
+            type: 'object',
+            properties: {
+              totalRevenue: {
+                type: 'number',
+                example: 5000.00,
+                description: 'Total de receitas no mês'
+              },
+              totalExpense: {
+                type: 'number',
+                example: 3000.00,
+                description: 'Total de despesas no mês'
+              },
+              balance: {
+                type: 'number',
+                example: 2000.00,
+                description: 'Saldo (receitas - despesas)'
+              }
+            }
+          }
+        }
+      },
     },
   },
 };

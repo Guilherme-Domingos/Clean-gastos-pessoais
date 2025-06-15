@@ -46,6 +46,41 @@ export class PrismaTransactionRepository implements TransactionRepository {
         }));
     }
 
+    async findByUserIdAndMonth(userId: string, month: number, year: number): Promise<Transaction[]> {
+        // Criar a data de início (primeiro dia do mês)
+        const startDate = new Date(year, month - 1, 1);
+        
+        // Criar a data de fim (primeiro dia do próximo mês)
+        const endDate = new Date(year, month, 0);
+        
+        const transactions = await prisma.transacao.findMany({
+            where: { 
+                usuarioId: userId,
+                data: {
+                    gte: startDate,
+                    lte: endDate,
+                }
+            },
+            include: {
+                categoria: true
+            },
+            orderBy: {
+                data: 'desc' // Ordena por data, mais recentes primeiro
+            }
+        });
+        
+        return transactions.map(transaction => Transaction.fromPersistentData({
+            id: transaction.id,
+            date: transaction.data,
+            amount: Number(transaction.valor),
+            description: transaction.descricao ?? undefined,
+            type: transaction.tipo,
+            sender: transaction.remetente ?? undefined,
+            userId: transaction.usuarioId,
+            categoryId: transaction.categoriaId ?? undefined
+        }));
+    }
+
     async save(transaction: Transaction): Promise<void> {
         await prisma.transacao.create({
             data: {
