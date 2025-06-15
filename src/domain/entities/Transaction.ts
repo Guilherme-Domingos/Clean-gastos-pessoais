@@ -29,6 +29,16 @@ export class Transaction {
         if (inputDate > currentDate) {
             throw new Error('Data da transação não pode ser no futuro');
         }
+
+        // VAlidar se o valor não é negativo
+        if (amount < 0) {
+            throw new Error('O valor da transação não pode ser negativo');
+        }
+
+        // Validar se o tipo é válido
+        if (type !== 'RECEITA' && type !== 'DESPESA') {
+            throw new Error('Tipo de transação inválido. Deve ser "RECEITA" ou "DESPESA"');
+        }
         
         return new Transaction({ 
             id: crypto.randomUUID(), 

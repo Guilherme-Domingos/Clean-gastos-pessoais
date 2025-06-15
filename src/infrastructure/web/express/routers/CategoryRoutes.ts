@@ -85,7 +85,7 @@ router.post('/category', authMiddleware, (req: Request, res: Response) => Contai
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/category', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleListCategories(req, res));
+router.get('/category', authMiddleware,(req: Request, res: Response) => ContainerFactory.createContainer().categoryController.handleListCategories(req, res));
 
 /** * @swagger
  * /category/{id}:

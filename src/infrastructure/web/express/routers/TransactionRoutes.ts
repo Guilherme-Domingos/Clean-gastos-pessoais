@@ -75,7 +75,7 @@ router.post('/transaction', authMiddleware, (req, res) => ContainerFactory.creat
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete('/transaction/:id', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleDeleteTransaction(req, res));
+router.delete('/transaction/:id', authMiddleware,(req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleDeleteTransaction(req, res));
 
 /** * @swagger
  * /transaction:
@@ -99,7 +99,7 @@ router.delete('/transaction/:id', authMiddleware, (req: Request, res: Response) 
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/transaction',(req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleListTransactions(res));
+router.get('/transaction', authMiddleware,(req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleListTransactions(res));
 
 /** * @swagger
  * /transaction/{id}:
