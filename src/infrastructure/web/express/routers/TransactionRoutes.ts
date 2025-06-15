@@ -221,8 +221,8 @@ router.get('/user/:userId/transactions', authMiddleware, (req: Request, res: Res
 /** * @swagger
  * /user/{userId}/transactions/{year}/{month}:
  *   get:
- *     summary: Busca todas as transações de um usuário em um mês específico
- *     description: Retorna uma lista com todas as transações financeiras de um usuário específico para o mês e ano informados, além de um resumo com totais
+ *     summary: Busca as transações mensais de um usuário
+ *     description: Retorna uma lista com todas as transações financeiras de um usuário em um mês específico, incluindo um resumo financeiro mensal
  *     tags: [Transactions]
  *     security:
  *       - bearerAuth: []
@@ -238,22 +238,30 @@ router.get('/user/:userId/transactions', authMiddleware, (req: Request, res: Res
  *         required: true
  *         schema:
  *           type: integer
- *         description: Ano para filtrar as transações (ex: 2025)
+ *         description: Ano das transações (ex. 2025)
  *       - in: path
  *         name: month
  *         required: true
  *         schema:
  *           type: integer
- *         description: Mês para filtrar as transações (1-12)
+ *           minimum: 1
+ *           maximum: 12
+ *         description: Mês das transações (1-12)
  *     responses:
  *       200:
- *         description: Transações do mês encontradas com sucesso
+ *         description: Transações mensais encontradas com sucesso
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/UserTransactionsByMonth'
  *       404:
- *         description: Usuário não encontrado ou sem transações no período
+ *         description: Usuário não encontrado ou sem transações no período especificado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       400:
+ *         description: Parâmetros inválidos (mês ou ano)
  *         content:
  *           application/json:
  *             schema:
