@@ -18,7 +18,14 @@ export class Category {
     
     public toPersistentData(): CategoryProps {
         return this.props;
-    }    get id(): number {
+    }    
+    
+    // Método para atualizar o ID após salvar no banco de dados
+    public updateId(newId: number): void {
+        this.props.id = newId;
+    }
+    
+    get id(): number {
         return this.props.id;
     }
     get name(): string {

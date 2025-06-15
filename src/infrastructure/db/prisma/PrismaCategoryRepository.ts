@@ -32,15 +32,16 @@ export class PrismaCategoryRepository implements CategoryRepository {
                 userId: category.usuarioId 
             } as CategoryProps)
         );
-    }
-
-    async save(category: Category): Promise<void> {
-        await prisma.categoria.create({
+    }    async save(category: Category): Promise<void> {
+        const savedCategory = await prisma.categoria.create({
             data: {
                 nome: category.name,
                 usuarioId: category.userId,
             }
         });
+        
+        // Atualizando o ID gerado na entidade Category usando o método adequado
+        category.updateId(savedCategory.id);
     }
 
     async update(category: Category): Promise<void> {
