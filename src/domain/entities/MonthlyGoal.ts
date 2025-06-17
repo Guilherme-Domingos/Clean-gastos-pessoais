@@ -9,7 +9,20 @@ export type MonthlyGoalProps = {
 export class MonthlyGoal {
     private constructor(
             private props: MonthlyGoalProps,
-    ){}    public static create(userId: string, valorLimite: number, mes: number, ano: number): MonthlyGoal {
+    ){}    
+    
+    public static create(userId: string, valorLimite: number, mes: number, ano: number): 
+    MonthlyGoal {
+        if (valorLimite <= 0) {
+            throw new Error('O valor limite deve ser maior que zero.');
+        }
+        if (mes < 1 || mes > 12) {
+            throw new Error('O mês deve estar entre 1 e 12.');
+        }
+        if (ano < 2000 || ano > new Date().getFullYear() + 1) {
+            throw new Error('O ano deve ser um valor válido.');
+        }
+
         return new MonthlyGoal({ id: 0, userId, valorLimite, mes, ano });
     }
 
@@ -19,7 +32,14 @@ export class MonthlyGoal {
     
     public toPersistentData(): MonthlyGoalProps {
         return this.props;
-    }    get id(): number {
+    }    
+    
+    // Método para atualizar o ID após salvar no banco de dados
+    public updateId(newId: number): void {
+        this.props.id = newId;
+    }
+    
+    get id(): number {
         return this.props.id;
     }
     get userId(): string {

@@ -2,12 +2,13 @@ import TransactionRoutes from './infrastructure/web/express/routers/TransactionR
 import UserRoutes from './infrastructure/web/express/routers/UserRoutes';
 import CategoryRoutes from './infrastructure/web/express/routers/CategoryRoutes';
 import AuthRoutes from './infrastructure/web/express/routers/AuthRoutes';
+import MonthlyGoalRoutes from './infrastructure/web/express/routers/MonthlyGoalRoutes';
 import { ApiExpress } from './infrastructure/web/express/ApiExpress';
 // Importa a documentação do Swagger apenas para registrar no JSDoc
 import './infrastructure/web/swagger/swagger-routes-docs';
 
 function main() {
-    const routers = [TransactionRoutes, UserRoutes, CategoryRoutes, AuthRoutes];
+    const routers = [TransactionRoutes, UserRoutes, CategoryRoutes, AuthRoutes, MonthlyGoalRoutes];
     const apiExpress = new ApiExpress(routers);
 
     const PORT = process.env.PORT || 3000;

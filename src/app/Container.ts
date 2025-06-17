@@ -33,7 +33,13 @@ import { UpdateCategory } from "../application/useCases/Category/UpdateCategory"
 import { DeleteCategory } from "../application/useCases/Category/DeleteCategory";
 import { FindUserCategories } from "../application/useCases/Category/FindUserCategories";
 
+// Importações necessárias da entidade Meta Mensal
+import { MonthlyGoalController } from "../infrastructure/web/express/controllers/MonthlyGoalController";
+import { PrismaMonthlyGoalRepository } from "../infrastructure/db/prisma/PrismaMonthlyGoalRepository";
+import { CreateMonthlyGoal } from "../application/useCases/MonthlyGoal/CreateMonthlyGoal"; 
+
 export class Container {
+    // Transações
     public get transactionController(){
         const TransactionRepository = new PrismaTransactionRepository();
         const createTransaction = new CreateTransaction(TransactionRepository);
@@ -53,7 +59,8 @@ export class Container {
             findUserTransactionsByMonth
         );
         return transactionController;
-    }    
+    }
+    // Usuários
       public get userController() {
         const userRepository = new PrismaUserRepository();
         const passwordHasher = new PasswordHasher();
@@ -73,26 +80,36 @@ export class Container {
         );
         return userController;
     }
-    
+    // Categorias
     public get categoryController() {
-    const categoryRepository = new PrismaCategoryRepository();
-    const createCategory = new CreateCategory(categoryRepository);
-    const listCategories = new ListCategories(categoryRepository);
-    const updateCategory = new UpdateCategory(categoryRepository);
-    const deleteCategory = new DeleteCategory(categoryRepository);
-    const findUserCategories = new FindUserCategories(categoryRepository);
-    const categoryController = new CategoryController(
-        createCategory,
-        listCategories,
-        updateCategory,
-        deleteCategory,
-        findUserCategories
-    );
-    return categoryController;
-}    public get authController() {
+        const categoryRepository = new PrismaCategoryRepository();
+        const createCategory = new CreateCategory(categoryRepository);
+        const listCategories = new ListCategories(categoryRepository);
+        const updateCategory = new UpdateCategory(categoryRepository);
+        const deleteCategory = new DeleteCategory(categoryRepository);
+        const findUserCategories = new FindUserCategories(categoryRepository);
+        const categoryController = new CategoryController(
+            createCategory,
+            listCategories,
+            updateCategory,
+            deleteCategory,
+            findUserCategories
+        );
+        return categoryController;
+}
+    // Autenticação
+    public get authController() {
         const userRepository = new PrismaUserRepository();
         const authenticate = new Authenticate(userRepository);
         const authController = new AuthController(authenticate, userRepository);
         return authController;
+    }
+
+    // Metas Mensais
+    public get monthlyGoalController() {
+        const monthlyGoalRepository = new PrismaMonthlyGoalRepository();
+        const createMonthlyGoal = new CreateMonthlyGoal(monthlyGoalRepository);
+        const monthlyGoalController = new MonthlyGoalController(createMonthlyGoal);
+        return monthlyGoalController;
     }
 }
