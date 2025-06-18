@@ -9,6 +9,10 @@ export class Category {
             private props: CategoryProps,
     ){}
       public static create(userId: string, name: string): Category {
+        if (!name || name.length < 3) {
+            throw new Error('O nome da categoria deve ter pelo menos 3 caracteres');
+        }
+        
         return new Category({ id: 0, userId, name });
     }
 

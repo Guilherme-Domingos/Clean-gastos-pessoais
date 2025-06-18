@@ -37,6 +37,7 @@ import { FindUserCategories } from "../application/useCases/Category/FindUserCat
 import { MonthlyGoalController } from "../infrastructure/web/express/controllers/MonthlyGoalController";
 import { PrismaMonthlyGoalRepository } from "../infrastructure/db/prisma/PrismaMonthlyGoalRepository";
 import { CreateMonthlyGoal } from "../application/useCases/MonthlyGoal/CreateMonthlyGoal"; 
+import { FindUserMonthlyGoal } from "../application/useCases/MonthlyGoal/FindUserMonthlyGoal";
 
 export class Container {
     // Transações
@@ -109,7 +110,11 @@ export class Container {
     public get monthlyGoalController() {
         const monthlyGoalRepository = new PrismaMonthlyGoalRepository();
         const createMonthlyGoal = new CreateMonthlyGoal(monthlyGoalRepository);
-        const monthlyGoalController = new MonthlyGoalController(createMonthlyGoal);
+        const findUserMonthlyGoal = new FindUserMonthlyGoal(monthlyGoalRepository);
+        const monthlyGoalController = new MonthlyGoalController(
+            createMonthlyGoal,
+            findUserMonthlyGoal
+        );
         return monthlyGoalController;
     }
 }

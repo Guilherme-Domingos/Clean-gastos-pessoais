@@ -19,7 +19,10 @@ export class MonthlyGoal {
         if (mes < 1 || mes > 12) {
             throw new Error('O mês deve estar entre 1 e 12.');
         }
-        if (ano < 2000 || ano > new Date().getFullYear() + 1) {
+        if (mes < new Date().getMonth()){
+            throw new Error('O mês não pode ser anterior ao mês atual.');
+        }
+        if (ano < new Date().getFullYear() || ano > new Date().getFullYear() + 1) {
             throw new Error('O ano deve ser um valor válido.');
         }
 

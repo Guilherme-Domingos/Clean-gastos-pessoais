@@ -33,6 +33,9 @@ export class User {
         if (!email || !email.includes('@')) {
             throw new Error('Email inválido');
         }
+        if (!password || password.length < 6) {
+            throw new Error('A senha deve ter pelo menos 6 caracteres');
+        }
         
         // Password não foi hasheado ainda
         return new User({ id: crypto.randomUUID(), name, email, password });
