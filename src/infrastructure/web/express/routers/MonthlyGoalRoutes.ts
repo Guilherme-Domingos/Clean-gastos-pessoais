@@ -85,4 +85,75 @@ router.post('/monthly-goals', authMiddleware, (req: Request, res: Response) => C
  */
 router.get('/monthly-goals/:userId', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().monthlyGoalController.handleFindUserMonthlyGoal(req, res));
 
+/** * @swagger
+ * /monthly-goals/{id}:
+ *   put:
+ *     summary: Atualiza uma meta mensal
+ *     description: Atualiza uma meta mensal de gastos pelo seu ID
+ *     tags: [Monthly Goals]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID da meta mensal a ser atualizada
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               valorLimite:
+ *                 type: number
+ *                 format: float
+ *                 example: 2000.00
+ *                 description: Novo valor limite para gastos no mês
+ *               mes:
+ *                 type: integer
+ *                 example: 7
+ *                 description: Novo mês da meta (1-12)
+ *               ano:
+ *                 type: integer
+ *                 example: 2025
+ *                 description: Novo ano da meta
+ *     responses:
+ *       200:
+ *         description: Meta mensal atualizada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   example: 1
+ *                   description: ID da meta mensal atualizada
+ *                 message:
+ *                   type: string
+ *                   example: "Monthly goal updated successfully"
+ *                   description: Mensagem de sucesso
+ *       400:
+ *         description: Dados inválidos na requisição
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Meta mensal não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.put('/monthly-goals/:id', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().monthlyGoalController.handleUpdateMonthlyGoal(req, res));
 export default router;
