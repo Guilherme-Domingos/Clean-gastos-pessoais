@@ -4,6 +4,7 @@ import { DeleteTransaction } from "../application/useCases/Transaction/DeleteTra
 import { FindTransaction } from "../application/useCases/Transaction/FindTransaction";
 import { FindUserTransactions } from "../application/useCases/Transaction/FindUserTransactions";
 import { FindUserTransactionsByMonth } from "../application/useCases/Transaction/FindUserTransactionsByMonth";
+import { GetTransactionTotalsByCategory } from "../application/useCases/Transaction/GetTransactionTotalsByCategory";
 import { ListTransactions } from "../application/useCases/Transaction/ListTransactions";
 import { UpdateTransaction } from "../application/useCases/Transaction/UpdateTransaction";
 import { TransactionController } from "../infrastructure/web/express/controllers/TransactionController";
@@ -40,8 +41,7 @@ import { CreateMonthlyGoal } from "../application/useCases/MonthlyGoal/CreateMon
 import { FindUserMonthlyGoal } from "../application/useCases/MonthlyGoal/FindUserMonthlyGoal";
 import { UpdateMonthlyGoal } from "../application/useCases/MonthlyGoal/UpdateMonthlyGoal";
 
-export class Container {
-    // Transações
+export class Container {    // Transações
     public get transactionController(){
         const TransactionRepository = new PrismaTransactionRepository();
         const createTransaction = new CreateTransaction(TransactionRepository);
@@ -51,6 +51,7 @@ export class Container {
         const findTransaction = new FindTransaction(TransactionRepository);
         const findUserTransactions = new FindUserTransactions(TransactionRepository);
         const findUserTransactionsByMonth = new FindUserTransactionsByMonth(TransactionRepository);
+        const getTransactionTotalsByCategory = new GetTransactionTotalsByCategory(TransactionRepository);
         const transactionController = new TransactionController(
             createTransaction, 
             deleteTransaction, 
@@ -58,7 +59,8 @@ export class Container {
             updateTransaction,
             findTransaction,
             findUserTransactions,
-            findUserTransactionsByMonth
+            findUserTransactionsByMonth,
+            getTransactionTotalsByCategory
         );
         return transactionController;
     }

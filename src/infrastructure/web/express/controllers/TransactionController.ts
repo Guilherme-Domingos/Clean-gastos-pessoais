@@ -4,6 +4,7 @@ import { DeleteTransaction } from '../../../../application/useCases/Transaction/
 import { FindTransaction } from '../../../../application/useCases/Transaction/FindTransaction';
 import { FindUserTransactions } from '../../../../application/useCases/Transaction/FindUserTransactions';
 import { FindUserTransactionsByMonth } from '../../../../application/useCases/Transaction/FindUserTransactionsByMonth';
+import { GetTransactionTotalsByCategory } from '../../../../application/useCases/Transaction/GetTransactionTotalsByCategory';
 import { ListTransactions } from '../../../../application/useCases/Transaction/ListTransactions';
 import { UpdateTransaction } from '../../../../application/useCases/Transaction/UpdateTransaction';
 
@@ -15,7 +16,8 @@ export class TransactionController {
         private updateTransaction: UpdateTransaction,
         private findTransaction: FindTransaction,
         private findUserTransactions: FindUserTransactions,
-        private findUserTransactionsByMonth: FindUserTransactionsByMonth
+        private findUserTransactionsByMonth: FindUserTransactionsByMonth,
+        private getTransactionTotalsByCategory: GetTransactionTotalsByCategory
     ) {}
 
     public async handleCreateTransaction(req: Request, res: Response): Promise<Response> {
@@ -133,6 +135,29 @@ export class TransactionController {
             return res.status(200).json(result);
         } catch (error) {
             console.error('Error finding user transactions by month:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
+    public async handleGetTransactionTotalsByCategory(req: Request, res: Response): Promise<Response> {
+        try {
+            const userId = req.params.userId;
+            const type = req.query.type as 'RECEITA' | 'DESPESA';
+
+            // Validar parâmetros
+            if (!userId) {
+                return res.status(400).json({ error: 'ID do usuário é obrigatório.' });
+            }
+
+            if (!type || (type !== 'RECEITA' && type !== 'DESPESA')) {
+                return res.status(400).json({ error: 'Tipo de transação inválido. Deve ser RECEITA ou DESPESA.' });
+            }
+            
+            const result = await this.getTransactionTotalsByCategory.execute({ userId, type });
+            
+            return res.status(200).json(result);
+        } catch (error) {
+            console.error('Error getting transaction totals by category:', error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     }

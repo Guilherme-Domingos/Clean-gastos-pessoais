@@ -275,4 +275,67 @@ router.get('/user/:userId/transactions', authMiddleware, (req: Request, res: Res
  */
 router.get('/user/:userId/transactions/:year/:month', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleFindUserTransactionsByMonth(req, res));
 
+/** * @swagger
+ * /user/{userId}/transactions/totals-by-category:
+ *   get:
+ *     summary: Busca os totais de transações por categoria
+ *     description: Retorna os totais de transações agrupados por categoria para um usuário específico, filtrados por tipo (RECEITA ou DESPESA)
+ *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do usuário para buscar suas transações
+ *       - in: query
+ *         name: type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [RECEITA, DESPESA]
+ *         description: Tipo de transação (RECEITA ou DESPESA)
+ *     responses:
+ *       200:
+ *         description: Totais por categoria encontrados com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totals:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       categoryId:
+ *                         type: integer
+ *                         example: 1
+ *                         description: ID da categoria
+ *                       categoryName:
+ *                         type: string
+ *                         example: "Alimentação"
+ *                         description: Nome da categoria
+ *                       total:
+ *                         type: number
+ *                         format: float
+ *                         example: 1500.75
+ *                         description: Valor total das transações nesta categoria
+ *       400:
+ *         description: Parâmetros inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.get('/user/:userId/transactions/totals-by-category', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().transactionController.handleGetTransactionTotalsByCategory(req, res));
+
 export default router;
