@@ -44,7 +44,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/user', authMiddleware, (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleCreateUser(req, res));
+router.post('/user', (req: Request, res: Response) => ContainerFactory.createContainer().userController.handleCreateUser(req, res));
 
 /** * @swagger
  * /user:
